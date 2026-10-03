@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chintamani — Agent Demo</title>
+  <style>
+    :root {
+      --ink: #17131d;
+      --muted: #6d6576;
+      --purple: #5f259f;
+      --p2: #7b3fc6;
+      --lav: #f5effb;
+      --line: #e9e1ef;
+      --ok: #177245;
+      --bad: #b42318;
+      --bg: #faf9fb
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: var(--bg);
+      color: var(--ink)
+    }
+
+    header {
+      height: 64px;
+      background: white;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 5
+    }
+
+    .brand {
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      font-weight: 800
+    }
+
+    .gem {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--purple), #9d65dc);
+      display: grid;
+      place-items: center;
+      color: white
+    }
+
+    .badge {
+      font-size: 12px;
+      padding: 6px 9px;
+      background: var(--lav);
+      color: var(--purple);
+      border-radius: 999px;
+      font-weight: 700
+    }
+
+    .reset {
+      border: 1px solid var(--line);
+      background: white;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(360px, .85fr);
+      min-height: calc(100vh - 64px)
+    }
+
+    .customer {
+      padding: 30px;
+      overflow: auto
+    }
+
+    .activity {
+      background: #15121a;
+      color: #f7f4fa;
+      padding: 24px;
+      overflow: auto;
+      border-left: 1px solid #2a2430
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--purple)
+    }
+
+    h1 {
+      font-size: 36px;
+      margin: 8px 0 6px
+    }
+
+    .sub {
+      color: var(--muted);
+      margin-bottom: 22px
+    }
+
+    .phone {
+      max-width: 780px;
+      margin: auto;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow: 0 18px 60px rgba(52, 27, 73, .08);
+      overflow: hidden
+    }
+
+    .phonebar {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .profile {
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--lav);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: var(--purple)
+    }
+
+    .chat {
+      padding: 20px;
+      min-height: 420px
+    }
+
+    .bubble {
+      max-width: 82%;
+      padding: 13px 15px;
+      border-radius: 18px;
+      margin: 10px 0;
+      line-height: 1.4
+    }
+
+    .ai {
+      background: var(--lav);
+      border-bottom-left-radius: 5px
+    }
+
+    .user {
+      background: var(--purple);
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 5px
+    }
+
+    .composer {
+      display: flex;
+      gap: 10px;
+      padding: 14px 16px;
+      border-top: 1px solid var(--line)
+    }
+
+    input {
+      flex: 1;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      font: inherit
+    }
+
+    .btn {
+      border: 0;
+      background: var(--purple);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer
+    }
+
+    .btn.secondary {
+      background: white;
+      color: var(--purple);
+      border: 1px solid #d8c6e8
+    }
+
+    .btn:disabled {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
+    .quick {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 13px;
+      cursor: pointer
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 14px 0
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .product-img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 11px;
+      margin-bottom: 10px;
+      background: #f3f0f5
+    }
+
+    .reviews {
+      margin-top: 9px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4
+    }
+
+    .stars {
+      color: #7b3fc6;
+      font-weight: 900
+    }
+
+    .gate {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: linear-gradient(145deg, #faf7fd, #f0e5fa)
+    }
+
+    .gatecard {
+      width: min(720px, 100%);
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 22px 70px rgba(52, 27, 73, .12)
+    }
+
+    .gatebrand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px
+    }
+
+    .gate h1 {
+      font-size: 34px
+    }
+
+    .signinrow {
+      display: flex;
+      gap: 10px
+    }
+
+    .signinrow input {
+      min-width: 0
+    }
+
+    .profiles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px
+    }
+
+    .profilecard {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      cursor: pointer;
+      background: white;
+      text-align: left
+    }
+
+    .profilecard:hover,
+    .profilecard.selected {
+      border: 2px solid var(--purple);
+      background: #fdfaff
+    }
+
+    .profilebig {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--lav);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: var(--purple);
+      margin-bottom: 10px
+    }
+
+    .smallmuted {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px
+    }
+
+    .app.hidden {
+      display: none !important
+    }
+
+    .card.best {
+      border: 2px solid var(--purple);
+      background: #fdfaff
+    }
+
+    .besttag {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      background: var(--purple);
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 7px;
+      border-radius: 999px
+    }
+
+    .pname {
+      font-weight: 800;
+      padding-right: 75px
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 5px 0
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: 900
+    }
+
+    .score {
+      font-size: 12px;
+      color: var(--ok);
+      font-weight: 800
+    }
+
+    .card button {
+      margin-top: 10px;
+      width: 100%
+    }
+
+    .order {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      margin: 12px 0
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0
+    }
+
+    .total {
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      font-weight: 900
+    }
+
+    .activity h2 {
+      margin: 0 0 4px
+    }
+
+    .activity .hint {
+      color: #aaa0b0;
+      font-size: 13px;
+      margin-bottom: 18px
+    }
+
+    .log {
+      border-left: 2px solid #403747;
+      padding-left: 15px
+    }
+
+    .event {
+      position: relative;
+      margin: 0 0 17px
+    }
+
+    .event:before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #8064a2;
+      position: absolute;
+      left: -20.5px;
+      top: 5px
+    }
+
+    .event.ok:before {
+      background: #4bc58a
+    }
+
+    .event.bad:before {
+      background: #ff6b62
+    }
+
+    .etime {
+      font-size: 11px;
+      color: #82798a
+    }
+
+    .etitle {
+      font-weight: 800;
+      margin: 2px 0
+    }
+
+    .edetail {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      color: #c9c0cf;
+      white-space: pre-wrap;
+      background: #211c27;
+      padding: 9px;
+      border-radius: 9px;
+      margin-top: 6px
+    }
+
+    .woz {
+      margin-top: 24px;
+      padding: 15px;
+      border: 1px solid #403747;
+      border-radius: 14px;
+      background: #1d1822
+    }
+
+    .woz h3 {
+      margin: 0 0 7px
+    }
+
+    .woz p {
+      font-size: 12px;
+      color: #b7adbd
+    }
+
+    .woz select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 9px;
+      margin: 5px 0 9px;
+      background: #2a2330;
+      color: white;
+      border: 1px solid #4a4052
+    }
+
+    .woz button {
+      width: 100%
+    }
+
+    .hidden {
+      display: none !important
+    }
+
+    .notice {
+      font-size: 12px;
+      color: var(--muted);
+      padding: 0 20px 14px
+    }
+
+    .fail {
+      color: var(--bad);
+      font-weight: 800
+    }
+
+    .success {
+      color: var(--ok);
+      font-weight: 800
+    }
+
+    @media(max-width:900px) {
+      main {
+        grid-template-columns: 1fr
+      }
+
+      .activity {
+        border-left: 0
+      }
+
+      .cards {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="gate" id="gate">
+    <div class="gatecard">
+      <div class="gatebrand">
+        <div class="gem">◆</div>
+        <div><b>Chintamani</b>
+          <div class="smallmuted">A proposed PhonePe shopping agent</div>
+        </div>
+      </div>
+      <div id="signinStep">
+        <div class="eyebrow">Sign in</div>
+        <h1>Welcome to Chintamani</h1>
+        <div class="sub">Sign in to use your saved shopping preferences and household profiles.</div>
+        <div class="signinrow"><input id="phone" value="98765 43210" aria-label="Mobile number"><button class="btn"
+            onclick="showProfiles()">Continue</button></div>
+        <div class="smallmuted" style="margin-top:10px">Prototype only — no OTP or personal data is sent.</div>
+      </div>
+      <div id="profileStep" class="hidden">
+        <div class="eyebrow">Choose profile</div>
+        <h1>Who are you shopping for?</h1>
+        <div class="sub">Each profile keeps its own permitted preferences, so purchases for someone else do not change
+          yours.</div>
+        <div class="profiles"><button class="profilecard" onclick="startApp('Anushka','A','Personal profile · Pune')">
+            <div class="profilebig">A</div><b>Anushka</b>
+            <div class="smallmuted">Personal profile · Pune</div>
+          </button><button class="profilecard" onclick="startApp('Mom','M','Household profile · Pune')">
+            <div class="profilebig">M</div><b>Mom</b>
+            <div class="smallmuted">Household profile · Pune</div>
+          </button><button class="profilecard" onclick="startApp('Dad','D','Household profile · Pune')">
+            <div class="profilebig">D</div><b>Dad</b>
+            <div class="smallmuted">Household profile · Pune</div>
+          </button></div>
+      </div>
+    </div>
+  </section>
+  <div class="app hidden" id="app">
+    <header>
+      <div class="brand">
+        <div class="gem">◆</div>
+        <div>Chintamani <span class="badge">Agent demo</span></div>
+      </div><button class="reset" onclick="resetDemo()">Reset demo</button>
+    </header>
+    <main>
+      <section class="customer">
+        <div class="eyebrow">Customer view</div>
+        <h1>Ask. Compare. Choose.</h1>
+        <div class="sub">A Wizard-of-Oz prototype showing what the customer sees while Chintamani makes the decisions.
+        </div>
+        <div class="phone">
+          <div class="phonebar">
+            <div class="profile">
+              <div class="avatar">A</div>
+              <div><b>Anushka</b>
+                <div style="font-size:12px;color:var(--muted)">Personal profile · Pune</div>
+              </div>
+            </div><span class="badge">Chintamani</span>
+          </div>
+          <div class="chat" id="chat">
+            <div class="bubble ai">Hi Anushka. What are you looking for today?</div>
+          </div>
+          <div class="composer" id="composer"><button class="btn secondary" id="voiceBtn" onclick="toggleRecording()">🎙
+              Voice</button><input id="request"
+              placeholder="Yaar, I need white sneakers for college, under 3,000. Nothing too chunky, and I need them by tomorrow." /><button
+              class="btn" onclick="submitRequest()">Send</button></div>
+          <div class="notice">Demo data is illustrative. Replace tool payloads with the exact documented Gnani,
+            Delhivery and Pine Labs responses used in your recording.</div>
+        </div>
+      </section>
+      <aside class="activity">
+        <h2>Agent Activity</h2>
+        <div class="hint">Observable inputs, decisions and tool interactions. No hidden chain-of-thought.</div>
+        <div class="log" id="log"></div>
+        <div class="woz hidden" id="delhiveryBox">
+          <h3>Behind the curtain · Delhivery</h3>
+          <p>The teammate supplies only the external serviceability result. Chintamani decides what happens next.</p>
+          <select id="deliveryResult">
+            <option value="fail">Not serviceable — trigger recovery</option>
+            <option value="pass">Serviceable — continue selected option</option>
+          </select><button class="btn" onclick="returnDelivery()">Return documented response</button>
+        </div>
+        <div class="woz hidden" id="paymentBox">
+          <h3>Behind the curtain · Pine Labs</h3>
+          <p>The customer has already confirmed. Supply only the payment result.</p><select id="paymentResult">
+            <option value="success">Payment successful</option>
+            <option value="fail">Payment failed</option>
+          </select><button class="btn" onclick="returnPayment()">Return documented response</button>
+        </div>
+      </aside>
+    </main>
+  </div>
+  <script>
+    const products = [
+      { name: 'Campus Court Lite', price: 2799, white: true, low: true, delivery: 'Tomorrow', stock: true, rating: 4.5, score: 98, img: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=700&q=80', reviews: ['Comfortable for long college days.', 'Clean shape and easy to style.'] },
+      { name: 'Red Tape Urban Low', price: 2949, white: true, low: true, delivery: 'Tomorrow', stock: true, rating: 4.4, score: 95, img: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?auto=format&fit=crop&w=700&q=80', reviews: ['Looks minimal rather than chunky.', 'Good everyday cushioning for the price.'] },
+      { name: 'Puma Caven 2.0', price: 2999, white: true, low: false, delivery: 'Tomorrow', stock: true, rating: 4.6, score: 89, img: 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=700&q=80', reviews: ['Feels sturdy and well padded.', 'A little bulkier than a classic court shoe.'] },
+      { name: 'HRX Everyday Court', price: 2699, white: true, low: true, delivery: 'Tomorrow', stock: true, rating: 4.2, score: 91, img: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=700&q=80', reviews: ['Light enough for everyday wear.', 'Simple design works well with jeans.'] },
+      { name: 'Chunky Street Max', price: 2499, white: true, low: false, delivery: 'Tomorrow', stock: true, rating: 4.3, score: 70 },
+      { name: 'Classic Runner', price: 3299, white: true, low: true, delivery: 'Tomorrow', stock: true, rating: 4.5, score: 72 },
+      { name: 'Minimal Court', price: 2599, white: true, low: true, delivery: '3 days', stock: true, rating: 4.1, score: 74 },
+      { name: 'Everyday White', price: 2399, white: true, low: true, delivery: 'Tomorrow', stock: false, rating: 4.0, score: 68 }
+    ];
+    let shortlist = [], selected = null, recovered = false;
+    let audioContext = null, mediaStream = null, scriptProcessor = null, audioBuffers = [], recordingSampleRate = 16000, isRecording = false;
+
+    function mergeFloat32(chunks) {
+      const length = chunks.reduce((n, c) => n + c.length, 0);
+      const out = new Float32Array(length); let offset = 0;
+      chunks.forEach(c => { out.set(c, offset); offset += c.length; });
+      return out;
+    }
+    function encodeWav(samples, sampleRate) {
+      const buffer = new ArrayBuffer(44 + samples.length * 2), view = new DataView(buffer);
+      const writeString = (o, str) => { for (let i = 0; i < str.length; i++)view.setUint8(o + i, str.charCodeAt(i)); };
+      const write16 = (o, v) => view.setUint16(o, v, true), write32 = (o, v) => view.setUint32(o, v, true);
+      writeString(0, 'RIFF'); write32(4, 36 + samples.length * 2); writeString(8, 'WAVE');
+      writeString(12, 'fmt '); write32(16, 16); write16(20, 1); write16(22, 1);
+      write32(24, sampleRate); write32(28, sampleRate * 2); write16(32, 2); write16(34, 16);
+      writeString(36, 'data'); write32(40, samples.length * 2);
+      let o = 44;
+      for (let i = 0; i < samples.length; i++) { const x = Math.max(-1, Math.min(1, samples[i])); write16(o, x < 0 ? x * 0x8000 : x * 0x7fff); o += 2; }
+      return new Blob([view], { type: 'audio/wav' });
+    }
+
+    async function toggleRecording() {
+      const btn = document.getElementById('voiceBtn');
+      if (isRecording) {
+        isRecording = false;
+        if (scriptProcessor) scriptProcessor.disconnect();
+        if (mediaStream) mediaStream.getTracks().forEach(t => t.stop());
+        if (audioContext) { try { await audioContext.close(); } catch (e) { } }
+        const wav = encodeWav(mergeFloat32(audioBuffers), recordingSampleRate);
+        btn.textContent = '🎙 Voice';
+        btn.disabled = true;
+        log('Voice note captured', 'Sending WAV audio to local Node proxy');
+        try {
+          const form = new FormData();
+          form.append('audio_file', wav, 'voice-note.wav');
+          form.append('language_code', 'hi-IN');
+          form.append('preferred_language', 'hi-IN');
+          form.append('format', 'transcribe');
+          form.append('itn_native_numerals', 'true');
+          log('→ Gnani Speech-to-Text', 'POST https://api.vachana.ai/stt/v3\nAudio: voice-note.wav\nLanguage: hi-IN');
+          const res = await fetch('/api/transcribe', {
+            method: 'POST',
+            headers: {},
+            body: form
+          });
+          const raw = await res.text();
+          let data;
+          try { data = JSON.parse(raw); } catch (e) { data = {}; }
+          if (!res.ok || data.success === false) throw new Error(data.message || data.error || `Gnani request failed (${res.status})`);
+          if (!data.transcript) throw new Error('Gnani returned no transcript.');
+          log('Gnani response received', `Transcript: ${data.transcript}`, 'ok');
+          document.getElementById('request').value = data.transcript;
+          bubble(data.transcript, 'user');
+          document.getElementById('composer').classList.add('hidden');
+          log('Decision · request is specific', 'Voice transcript passed into the same shopping-agent flow.', 'ok');
+          setTimeout(runSearch, 350);
+        } catch (err) {
+          log('Gnani STT error', err.message, 'bad');
+          bubble('I could not transcribe that voice note. Please try again or type your request.');
+        } finally { btn.disabled = false; }
+        return;
+      }
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        recordingSampleRate = audioContext.sampleRate;
+        const source = audioContext.createMediaStreamSource(mediaStream);
+        scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+        audioBuffers = [];
+        scriptProcessor.onaudioprocess = e => audioBuffers.push(new Float32Array(e.inputBuffer.getChannelData(0)));
+        source.connect(scriptProcessor);
+        scriptProcessor.connect(audioContext.destination);
+        isRecording = true;
+        btn.textContent = '⏹ Stop';
+        log('Recording started', 'Microphone permission granted; recording until Stop is pressed', 'ok');
+      } catch (err) {
+        log('Microphone error', err.message, 'bad');
+        bubble('Microphone access was unavailable. Please allow microphone access or type your request.');
+      }
+    }
+
+    function esc(s) { return s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])) }
+    function bubble(text, type = 'ai', html = false) { let d = document.createElement('div'); d.className = 'bubble ' + type; d.innerHTML = html ? text : esc(text); document.getElementById('chat').appendChild(d); d.scrollIntoView({ behavior: 'smooth', block: 'end' }); }
+    function log(title, detail = '', cls = '') { let e = document.createElement('div'); e.className = 'event ' + cls; let t = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }); e.innerHTML = `<div class="etime">${t}</div><div class="etitle">${title}</div>${detail ? `<div class="edetail">${esc(detail)}</div>` : ''}`; document.getElementById('log').appendChild(e); e.scrollIntoView({ behavior: 'smooth', block: 'end' }); }
+    function submitRequest() { let q = document.getElementById('request').value.trim(); if (!q) return; bubble(q, 'user'); document.getElementById('composer').classList.add('hidden'); log('Input received', 'Source: customer text/voice\nProfile: Anushka', 'ok'); setTimeout(() => { log('→ Gnani', 'DEMO PLACEHOLDER\nInput: customer utterance\nExpected: exact Gnani response pasted into agent'); }, 300); setTimeout(() => { log('Gnani response received', 'Transcription returned to Chintamani', 'ok'); log('Decision · request is specific', 'Extracted observable constraints:\nproduct=sneakers\ncolour=white\nbudget<=₹3,000\nstyle=not chunky\ndeadline=tomorrow\nAction: search without unnecessary clarification', 'ok'); bubble("Got it. I'm looking for white, low-profile sneakers under ₹3,000 that can reach you by tomorrow."); }, 650); setTimeout(runSearch, 1100) }
+    function runSearch() { log('Searching product inputs', '8 illustrative candidate records received'); let rejected = products.filter(p => p.price > 3000 || !p.stock || p.delivery !== 'Tomorrow' || !p.white); shortlist = products.filter(p => p.price <= 3000 && p.stock && p.delivery === 'Tomorrow' && p.white).sort((a, b) => b.score - a.score).slice(0, 4); log('Decision · filter and rank', `${rejected.length} rejected on hard constraints\n${shortlist.length} shortlisted\nRanking uses fit score after hard constraints`, 'ok'); showProducts(); }
+    function showProducts() { let html = '<b>I found 4 eligible options.</b><div class="cards">'; shortlist.forEach((p, i) => { let rev = (p.reviews || ['Review unavailable in prototype.', '']).map(x => '“' + x + '”').join('<br>'); html += `<div class="card ${i === 0 ? 'best' : ''}">${i === 0 ? '<span class="besttag">BEST MATCH</span>' : ''}<img class="product-img" src="${p.img || 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80'}" alt="Illustrative sneaker image"><div class="pname">${p.name}</div><div class="price">₹${p.price.toLocaleString('en-IN')}</div><div class="meta">White · ${p.low ? 'Low-profile' : 'Chunkier profile'} · ${p.delivery}</div><div class="score">Fit score ${p.score}/100</div><div class="reviews"><span class="stars">★ ${p.rating}</span> · illustrative review snippets<br>${rev}</div><button class="btn ${i ? 'secondary' : ''}" onclick="choose(${i})">Choose ${i ? 'option' : 'this'}</button></div>` }); html += '</div>'; bubble(html, 'ai', true); }
+    function choose(i) { selected = shortlist[i]; bubble(`Choose ${selected.name} for ₹${selected.price.toLocaleString('en-IN')}.`, 'user'); log('Customer selected product', `${selected.name}\n₹${selected.price}`, 'ok'); log('Decision · verify fulfilment', 'Selected product requires delivery-feasibility check before checkout.'); log('→ Delhivery · B2C Pincode Serviceability', 'DEMO PLACEHOLDER\nDestination pincode: [your demo pincode]\nReplace with exact documented endpoint/request in final recording.'); document.getElementById('delhiveryBox').classList.remove('hidden'); }
+    function returnDelivery() { document.getElementById('delhiveryBox').classList.add('hidden'); let r = document.getElementById('deliveryResult').value; if (r === 'fail') { log('Delhivery response received', 'DEMO: destination/fulfilment path not serviceable', 'bad'); log('Decision · stop selected fulfilment', 'Rule: never assume unverified delivery.\nAction: do not proceed; re-evaluate remaining eligible options.', 'bad'); let alt = shortlist.find(p => p !== selected); selected = alt; recovered = true; bubble(`<span class="fail">That delivery path won't work for your location.</span><br><br>I re-evaluated the remaining eligible options. <b>${alt.name}</b> is now the best available match at <b>₹${alt.price.toLocaleString('en-IN')}</b>, still within your ₹3,000 budget.<div class="quick"><button class="btn" onclick="reviewOrder()">Choose this instead</button></div>`, 'ai', true); log('Recovery · next eligible match selected', `${alt.name}\n₹${alt.price}\nNo hard constraint relaxed`, 'ok'); } else { log('Delhivery response received', 'DEMO: serviceable', 'ok'); log('Decision · fulfilment may proceed', 'Serviceability condition satisfied.', 'ok'); reviewOrder(); } }
+    function reviewOrder() { bubble(`Proceed with ${selected.name}.`, 'user'); log('Customer accepted final product', selected.name, 'ok'); let html = `<b>Ready to order</b><div class="order"><div class="row"><span>${selected.name}</span><b>₹${selected.price.toLocaleString('en-IN')}</b></div><div class="row"><span>Delivery</span><span>Verified in demo flow</span></div><div class="row total"><span>Total</span><span>₹${selected.price.toLocaleString('en-IN')}</span></div></div><div class="quick"><button class="btn" onclick="confirmPayment()">Confirm ₹${selected.price.toLocaleString('en-IN')}</button><button class="btn secondary" onclick="cancelOrder()">Cancel</button></div>`; bubble(html, 'ai', true); log('Decision · confirmation required', 'Consequential action: payment.\nAgent pauses until explicit customer authorization.'); }
+    function confirmPayment() { bubble(`Confirm payment of ₹${selected.price.toLocaleString('en-IN')}.`, 'user'); log('Explicit payment authorization received', `Amount: ₹${selected.price}`, 'ok'); log('→ Pine Labs', 'DEMO PLACEHOLDER\nExact amount: ₹' + selected.price + '\nReplace with exact documented endpoint/request in final recording.'); document.getElementById('paymentBox').classList.remove('hidden'); }
+    function returnPayment() { document.getElementById('paymentBox').classList.add('hidden'); let r = document.getElementById('paymentResult').value; if (r === 'success') { log('Pine Labs response received', 'DEMO: payment successful', 'ok'); log('Decision · transaction complete', 'Payment success is verified; mark outcome achieved.', 'ok'); bubble(`<span class="success">Done. Your order is confirmed.</span><br><br><b>${selected.name}</b><br>₹${selected.price.toLocaleString('en-IN')}<br><br>Chintamani completed the flow only after your confirmation.`, 'ai', true); } else { log('Pine Labs response received', 'DEMO: payment failed', 'bad'); log('Decision · safely pause', 'Do not claim purchase success. Ask customer before any further payment attempt.', 'bad'); bubble(`<span class="fail">The payment didn't go through.</span><br><br>I haven't placed the order or retried the payment. You can try again when you're ready.`, 'ai', true); } }
+    function cancelOrder() { bubble('Cancel the order.', 'user'); log('Customer cancelled', 'No payment call made.', 'bad'); bubble('Cancelled. No payment was attempted.'); }
+    function showProfiles() { document.getElementById('signinStep').classList.add('hidden'); document.getElementById('profileStep').classList.remove('hidden'); }
+    function startApp(name, initial, meta) { document.getElementById('gate').classList.add('hidden'); document.getElementById('app').classList.remove('hidden'); document.querySelector('.phonebar .avatar').textContent = initial; document.querySelector('.phonebar .profile b').textContent = name; document.querySelector('.phonebar .profile div div').textContent = meta; document.getElementById('chat').innerHTML = `<div class="bubble ai">Hi ${name}. What are you looking for today?</div>`; log('Profile selected', `${name}\n${meta}`, 'ok'); }
+    function resetDemo() { location.reload() }
+  </script>
+</body>
+
+</html>
