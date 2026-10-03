@@ -61,6 +61,6 @@ app.post('/api/transcribe', upload.single('audio_file'), async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log(`Chintamani running at http://localhost:${PORT}`);
 });
