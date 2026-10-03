@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 const GNANI_API_KEY = process.env.GNANI_API_KEY;
 const GNANI_STT_URL = 'https://api.vachana.ai/stt/v3';
 
-app.use(express.static(__dirname));
+app.use(express.static("."));
 
 app.get('/api/health', (_req, res) => {
   res.json({ ok: true, gnaniKeyConfigured: Boolean(GNANI_API_KEY) });
